@@ -3,9 +3,9 @@ package com.chenyue404.androidapp
 import android.app.Activity
 import android.os.Bundle
 import android.widget.Button
-import com.chenyue404.androidapp.extends.bind
-import com.chenyue404.androidapp.extends.changeSize
-import com.chenyue404.androidapp.extends.click
+import com.chenyue404.androidlib.extends.bind
+import com.chenyue404.androidlib.extends.changeSize
+import com.chenyue404.androidlib.extends.click
 
 class MainActivity : Activity() {
 

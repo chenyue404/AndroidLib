@@ -28,9 +28,16 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.fragment:fragment:1.4.1'
+    implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 afterEvaluate {
+    // 打包源码
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+
     publishing {
         publications {
             release(MavenPublication) {
@@ -38,6 +45,9 @@ afterEvaluate {
                 groupId = 'com.github.chenyue404'
                 artifactId = 'androidlib'
                 version = '1.0.0'
+                artifacts {
+                    archives sourcesJar
+                }
             }
         }
     }

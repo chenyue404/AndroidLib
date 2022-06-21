@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.chenyue404.androidapp">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.chenyue404.androidapp">
 
+    <application>
+
+        <provider
+            android:name=".ContextProvider"
+            android:authorities="${applicationId}.contextProvider"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
 </manifest>

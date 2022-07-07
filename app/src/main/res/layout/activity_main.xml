@@ -22,4 +22,18 @@
         app:layout_constraintStart_toEndOf="@id/bt0"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:id="@+id/gl0"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="100dp"
+        android:layout_height="wrap_content" />
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/gl0"
+        app:layout_constraintBottom_toBottomOf="@id/gl0"
+        android:background="@color/black_40"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

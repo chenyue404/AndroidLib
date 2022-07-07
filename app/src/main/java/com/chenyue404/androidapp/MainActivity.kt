@@ -1,10 +1,10 @@
 package com.chenyue404.androidapp
 
-import android.os.Bundle
 import android.widget.Button
 import androidx.lifecycle.Lifecycle
 import com.chenyue404.androidlib.extends.*
 import com.chenyue404.androidlib.widget.BaseActivity
+import com.chenyue404.androidlib.widget.ToolbarView
 
 class MainActivity : BaseActivity() {
 
@@ -12,9 +12,16 @@ class MainActivity : BaseActivity() {
     private val bt1 by bind<Button>(R.id.bt1)
 
     override fun getContentViewResId() = R.layout.activity_main
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initView() {
+        toolbar.apply {
+            left(
+                "asd",
+                R.style.LeftText,
+                ToolbarView.defaultLayoutParams.apply {
+                    marginStart = 10.dp2Px()
+                }
+            )
+        }
 
         bt0.click {
             it.changeSize(it.height * 2)

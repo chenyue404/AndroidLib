@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -13,7 +12,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
-import com.chenyue404.androidlib.extends.dp2Px
 import com.chenyue404.androidlib.extends.drawable
 import com.chenyue404.androidlib.util.ScreenUtil
 
@@ -24,10 +22,9 @@ class ToolbarView @JvmOverloads constructor(
     companion object {
         val defaultLayoutParams: LayoutParams
             get() = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        var defaultHeight = ScreenUtil.getToolbarHeight()
     }
 
-    private val defaultHeight = 56.dp2Px()
-    private val initViews by lazy { mutableListOf<ViewGroup>() }
     var isImmerse: Boolean = true
         set(value) {
             field = value
@@ -96,7 +93,7 @@ class ToolbarView @JvmOverloads constructor(
         }
     }
 
-    fun <T : View> left(view: View): T {
+    fun <T : View> start(view: View): T {
         val lp = view.layoutParams?.let {
             it as LayoutParams
         } ?: defaultLayoutParams
@@ -104,12 +101,12 @@ class ToolbarView @JvmOverloads constructor(
             lp.apply {
                 topToTop = LayoutParams.PARENT_ID
                 bottomToBottom = LayoutParams.PARENT_ID
-                leftToLeft = LayoutParams.PARENT_ID
+                startToStart = LayoutParams.PARENT_ID
             })
         return view as T
     }
 
-    fun left(
+    fun start(
         @DrawableRes id: Int,
         @StyleRes style: Int = 0,
         lp: LayoutParams = defaultLayoutParams
@@ -121,10 +118,10 @@ class ToolbarView @JvmOverloads constructor(
             setImageResource(id)
             layoutParams = lp
         }
-        return left(imageView)
+        return start(imageView)
     }
 
-    fun left(
+    fun start(
         str: CharSequence,
         @StyleRes style: Int = 0,
         lp: LayoutParams = defaultLayoutParams
@@ -136,6 +133,79 @@ class ToolbarView @JvmOverloads constructor(
             text = str
             layoutParams = lp
         }
-        return left(textView)
+        return start(textView)
+    }
+
+    fun <T : View> center(view: View): T {
+        val lp = view.layoutParams?.let {
+            it as LayoutParams
+        } ?: defaultLayoutParams
+        addView(view,
+            lp.apply {
+                topToTop = LayoutParams.PARENT_ID
+                bottomToBottom = LayoutParams.PARENT_ID
+                startToStart = LayoutParams.PARENT_ID
+                endToEnd = LayoutParams.PARENT_ID
+            })
+        return view as T
+    }
+
+    fun center(
+        str: CharSequence,
+        @StyleRes style: Int = 0,
+        lp: LayoutParams = defaultLayoutParams
+    ): TextView {
+        val textView =
+            if (style == 0) TextView(context)
+            else TextView(context, null, 0, style)
+        textView.apply {
+            text = str
+            layoutParams = lp
+        }
+        return center(textView)
+    }
+
+
+    fun <T : View> end(view: View): T {
+        val lp = view.layoutParams?.let {
+            it as LayoutParams
+        } ?: defaultLayoutParams
+        addView(view,
+            lp.apply {
+                topToTop = LayoutParams.PARENT_ID
+                bottomToBottom = LayoutParams.PARENT_ID
+                endToEnd = LayoutParams.PARENT_ID
+            })
+        return view as T
+    }
+
+    fun end(
+        @DrawableRes id: Int,
+        @StyleRes style: Int = 0,
+        lp: LayoutParams = defaultLayoutParams
+    ): ImageView {
+        val imageView =
+            if (style == 0) ImageView(context)
+            else ImageView(context, null, 0, style)
+        imageView.apply {
+            setImageResource(id)
+            layoutParams = lp
+        }
+        return end(imageView)
+    }
+
+    fun end(
+        str: CharSequence,
+        @StyleRes style: Int = 0,
+        lp: LayoutParams = defaultLayoutParams
+    ): TextView {
+        val textView =
+            if (style == 0) TextView(context)
+            else TextView(context, null, 0, style)
+        textView.apply {
+            text = str
+            layoutParams = lp
+        }
+        return end(textView)
     }
 }

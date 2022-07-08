@@ -3,6 +3,7 @@ package com.chenyue404.androidlib.util
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Point
+import android.util.TypedValue
 import android.view.WindowManager
 import com.chenyue404.androidlib.ContextProvider
 
@@ -46,5 +47,21 @@ object ScreenUtil {
         val resources: Resources = ContextProvider.mContext.resources
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         return resources.getDimensionPixelSize(resourceId)
+    }
+
+    /** 获取默认toolbar高度，取不到则为0 */
+    fun getToolbarHeight(): Int {
+        val tv = TypedValue()
+        return if (ContextProvider.mContext.theme.resolveAttribute(
+                android.R.attr.actionBarSize,
+                tv,
+                true
+            )
+        ) {
+            TypedValue.complexToDimensionPixelSize(
+                tv.data,
+                ContextProvider.mContext.resources.displayMetrics
+            )
+        } else 0
     }
 }

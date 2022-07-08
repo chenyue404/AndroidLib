@@ -1,5 +1,6 @@
 package com.chenyue404.androidapp
 
+import android.graphics.Color
 import android.widget.Button
 import androidx.lifecycle.Lifecycle
 import com.chenyue404.androidlib.extends.*
@@ -14,13 +15,17 @@ class MainActivity : BaseActivity() {
     override fun getContentViewResId() = R.layout.activity_main
     override fun initView() {
         toolbar.apply {
-            left(
+            setBackgroundColor(Color.GREEN)
+            alpha = 0.5f
+            start(
                 "asd",
                 R.style.LeftText,
                 ToolbarView.defaultLayoutParams.apply {
                     marginStart = 10.dp2Px()
                 }
             )
+            center("center")
+            end(android.R.drawable.ic_menu_close_clear_cancel)
         }
 
         bt0.click {

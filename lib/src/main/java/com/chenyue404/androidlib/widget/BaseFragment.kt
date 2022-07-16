@@ -14,6 +14,10 @@ abstract class BaseFragment : Fragment() {
     protected val mContext: Context
         get() = requireContext()
 
+
+    abstract fun getContentViewResId(): Int
+    abstract fun initView(root: View)
+
     @CallSuper
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,5 +30,10 @@ abstract class BaseFragment : Fragment() {
         return mRootView
     }
 
-    abstract fun getContentViewResId(): Int
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mRootView?.let {
+            initView(it)
+        }
+    }
 }

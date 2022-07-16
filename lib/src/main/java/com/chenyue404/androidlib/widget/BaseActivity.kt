@@ -35,7 +35,6 @@ abstract class BaseActivity : AppCompatActivity() {
     protected fun initBeforeSetContent() {}
     abstract fun initView()
 
-
     val toolbar: ToolbarView by lazy {
         ToolbarView(this).apply {
             attachToolbar(this@BaseActivity.rootView)

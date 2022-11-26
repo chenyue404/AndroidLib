@@ -40,4 +40,9 @@ abstract class BaseActivity : AppCompatActivity() {
             attachToolbar(this@BaseActivity.rootView)
         }
     }
+
+    protected fun hideActionBar(hide: Boolean = true) =
+        supportActionBar?.run {
+            if (hide) hide() else show()
+        }
 }

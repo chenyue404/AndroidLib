@@ -121,7 +121,7 @@ object LogCat {
             it.intercept(chain)
         }
 
-        if (chain.cancel || tag.isNullOrEmpty()) return
+        if (chain.cancel || tag.isEmpty()) return
 
         val adjustMsg = message ?: ""
 
@@ -165,7 +165,7 @@ object LogCat {
             it.intercept(chain)
         }
 
-        if (chain.cancel || tag.isNullOrBlank()) return
+        if (chain.cancel || tag.isBlank()) return
 
         if (message.isNullOrBlank()) {
             val adjustMsg = if (url.isNullOrBlank()) message else url

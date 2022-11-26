@@ -33,6 +33,6 @@ class LongDefaultAdapter : JsonSerializer<Long>, JsonDeserializer<Long> {
         typeOfSrc: Type?,
         context: JsonSerializationContext?
     ): JsonElement {
-        return JsonPrimitive(src);
+        return JsonPrimitive(src)
     }
 }

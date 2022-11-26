@@ -113,7 +113,7 @@ object KeyboardUtil {
 
     /**
      * 软键盘是否可见
-     * @param 目标Activity
+     * @param activity 目标Activity
      */
     fun isSoftInputVisible(activity: Activity): Boolean {
         return getDecorViewInvisibleHeight(activity.window) > 0

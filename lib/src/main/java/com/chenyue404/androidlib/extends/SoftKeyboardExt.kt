@@ -13,7 +13,8 @@ fun EditText.showInputMethod() {
     try {
         val imeOptions =
             context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        imeOptions?.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
+//        imeOptions?.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
+        imeOptions?.showSoftInput(this, 0)
     } catch (e: Exception) {
         e.printStackTrace()
     }

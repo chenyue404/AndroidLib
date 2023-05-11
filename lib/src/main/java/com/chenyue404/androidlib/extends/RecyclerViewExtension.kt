@@ -18,11 +18,11 @@ fun RecyclerView.setOnItemClick(
         override fun onChildViewAttachedToWindow(view: View) {
             val holder = getChildViewHolder(view)
             view.setOnClickListener {
-                itemClick(this@setOnItemClick, holder.adapterPosition, it)
+                itemClick(this@setOnItemClick, holder.bindingAdapterPosition, it)
             }
             itemLongClick?.let {
                 view.setOnLongClickListener { view ->
-                    it(this@setOnItemClick, holder.adapterPosition, view)
+                    it(this@setOnItemClick, holder.bindingAdapterPosition, view)
                     true
                 }
             }

@@ -207,18 +207,21 @@ object LogCat {
             LogCatPriority.INFO -> {
                 Log.i(tag, adjustMsg)
             }
+
             LogCatPriority.WARN -> {
                 Log.w(tag, adjustMsg)
             }
+
             LogCatPriority.ERROR -> {
                 Log.e(tag, adjustMsg)
             }
+
             LogCatPriority.ASSERT -> {
                 Log.wtf(tag, adjustMsg)
             }
-            else -> {
-                Log.e(tag, adjustMsg)
-            }
+//            else -> {
+//                Log.e(tag, adjustMsg)
+//            }
         }
     }
     // </editor-fold>

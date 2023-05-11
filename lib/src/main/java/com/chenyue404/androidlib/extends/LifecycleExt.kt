@@ -3,7 +3,7 @@ package com.chenyue404.androidlib.extends
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.whenStateAtLeast
+import androidx.lifecycle.withStateAtLeast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -22,7 +22,12 @@ fun Lifecycle.launch(
         if (repeat) {
             repeatOnLifecycle(state, block)
         } else {
-            whenStateAtLeast(state, block)
+//            whenStateAtLeast(state, block)
+            withStateAtLeast(state) {
+                launch {
+                    block.invoke(this)
+                }
+            }
         }
     }
 }

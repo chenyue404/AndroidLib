@@ -53,27 +53,6 @@ afterEvaluate {
                 groupId = "com.github.chenyue404"
                 artifactId = "androidlib"
                 version = "1.0.0"
-
-                pom.withXml {
-                    val dependenciesNode = asNode().appendNode("dependencies")
-                    configurations.implementation.get().allDependencies.forEach { dp ->
-                        if (dp.version != "unspecified") { // 过滤项目内library引用
-                            val dependencyNode = dependenciesNode.appendNode("dependency")
-                            dependencyNode.appendNode("groupId", dp.group)
-                            dependencyNode.appendNode("artifactId", dp.name)
-                            dependencyNode.appendNode("version", dp.version)
-                            // for exclusions
-//                            if (dp.excludeRules.size() > 0) {
-//                                val exclusions = dependencyNode.appendNode("exclusions")
-//                                dp.excludeRules.each { ex ->
-//                                    val exclusion = exclusions.appendNode("exclusion")
-//                                    exclusion.appendNode("groupId", ex.group)
-//                                    exclusion.appendNode("artifactId", ex.module)
-//                                }
-//                            }
-                        }
-                    }
-                }
             }
         }
     }

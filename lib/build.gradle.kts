@@ -5,11 +5,10 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 23
-        targetSdk = 32
 
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -24,6 +23,15 @@ android {
         }
     }
     namespace = "com.chenyue404.androidlib"
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {

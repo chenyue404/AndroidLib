@@ -4,12 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.chenyue404.androidtoolbox"
         minSdk 23
-        targetSdk 32
         versionCode 1
         versionName "1.0"
     }
@@ -21,13 +20,24 @@ android {
         }
     }
     namespace 'com.chenyue404.androidapp'
-}
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = 17
+    }
+}
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 dependencies {
     implementation project(path: ':lib')
 //    implementation 'com.github.chenyue404:AndroidLib:1.0.0'
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }

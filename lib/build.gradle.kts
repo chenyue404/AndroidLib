@@ -8,7 +8,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        minSdk = 23
+        minSdk = 21
 
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -40,7 +40,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common:2.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime:2.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.fragment:fragment:1.5.7")
+    implementation("androidx.fragment:fragment:1.6.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.code.gson:gson:2.9.1")
 }

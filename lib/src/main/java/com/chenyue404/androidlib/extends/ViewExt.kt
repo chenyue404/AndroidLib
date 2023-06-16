@@ -7,6 +7,7 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.fragment.app.Fragment
 
 class FastClickListener(
     private val time: Int = BLOCKING_OF_TIME,
@@ -55,8 +56,7 @@ fun View.gone() {
 }
 
 fun <V : View> Activity.bind(id: Int): Lazy<V> = lazy { findViewById(id) }
-
-//fun <V : View> BaseFragment.bind(id: Int): Lazy<V> = lazy { findViewById(id) }
+fun <V : View> Fragment.bind(id: Int): Lazy<V> = lazy { requireView().findViewById(id) }
 fun <V : View> View.bind(id: Int): Lazy<V> = lazy { findViewById(id) }
 fun <V : View> Dialog.bind(id: Int): Lazy<V> = lazy { findViewById(id) }
 

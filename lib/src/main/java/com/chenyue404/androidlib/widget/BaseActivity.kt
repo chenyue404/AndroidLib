@@ -32,7 +32,7 @@ abstract class BaseActivity : AppCompatActivity() {
     @LayoutRes
     protected abstract fun getContentViewResId(): Int
 
-    protected fun initBeforeSetContent() {}
+    protected open fun initBeforeSetContent() {}
     abstract fun initView()
 
     val toolbar: ToolbarView by lazy {

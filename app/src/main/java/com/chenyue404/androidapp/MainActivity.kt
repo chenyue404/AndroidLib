@@ -3,7 +3,12 @@ package com.chenyue404.androidapp
 import android.graphics.Color
 import android.widget.Button
 import androidx.lifecycle.Lifecycle
-import com.chenyue404.androidlib.extends.*
+import com.chenyue404.androidlib.extends.bind
+import com.chenyue404.androidlib.extends.changeSize
+import com.chenyue404.androidlib.extends.click
+import com.chenyue404.androidlib.extends.dp2Px
+import com.chenyue404.androidlib.extends.launch
+import com.chenyue404.androidlib.extends.log
 import com.chenyue404.androidlib.widget.BaseActivity
 import com.chenyue404.androidlib.widget.ToolbarView
 
@@ -43,5 +48,9 @@ class MainActivity : BaseActivity() {
         lifecycle.launch(Lifecycle.State.RESUMED, true) {
             log("RESUMED-true")
         }
+    }
+
+    override fun initBeforeSetContent() {
+
     }
 }

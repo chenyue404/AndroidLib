@@ -10,17 +10,17 @@ import java.lang.reflect.Type
  */
 object GsonUtil {
 
+    val defaultTypeAdapter = GsonBuilder()
+        .serializeNulls()
+        .registerTypeAdapter(Int::class.java, IntegerDefaultAdapter())
+        .registerTypeAdapter(String::class.java, StringNullAdapter())
+        .registerTypeAdapter(Boolean::class.java, BooleanTypeAdapter())
+        .registerTypeAdapter(Double::class.java, DoubleTypeAdapter())
+        .registerTypeAdapter(Float::class.java, FloatTypeAdapter())
+        .registerTypeAdapter(List::class.java, ListTypeAdapter())
+        .registerTypeAdapter(Long::class.java, LongDefaultAdapter())
     val gson: Gson by lazy {
-        GsonBuilder()
-            .serializeNulls()
-            .registerTypeAdapter(Int::class.java, IntegerDefaultAdapter())
-            .registerTypeAdapter(String::class.java, StringNullAdapter())
-            .registerTypeAdapter(Boolean::class.java, BooleanTypeAdapter())
-            .registerTypeAdapter(Double::class.java, DoubleTypeAdapter())
-            .registerTypeAdapter(Float::class.java, FloatTypeAdapter())
-            .registerTypeAdapter(List::class.java, ListTypeAdapter())
-            .registerTypeAdapter(Long::class.java, LongDefaultAdapter())
-            .create()
+        defaultTypeAdapter.create()
     }
 
     fun toJson(paramObject: Any): String = gson.toJson(paramObject)
@@ -29,7 +29,7 @@ object GsonUtil {
         return gson.fromJson(json, type)
     }
 
-    fun <T> fromJson(json: String): List<T> {
+    fun <T> listFromJson(json: String): List<T> {
         return gson.fromJson(json, object : TypeToken<List<T>>() {}.type)
     }
 

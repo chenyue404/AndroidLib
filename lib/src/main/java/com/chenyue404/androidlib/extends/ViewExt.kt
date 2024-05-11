@@ -55,10 +55,17 @@ fun View.gone() {
     visibility = View.GONE
 }
 
-fun <V : View> Activity.bind(id: Int): Lazy<V> = lazy { findViewById(id) }
-fun <V : View> Fragment.bind(id: Int): Lazy<V> = lazy { requireView().findViewById(id) }
-fun <V : View> View.bind(id: Int): Lazy<V> = lazy { findViewById(id) }
-fun <V : View> Dialog.bind(id: Int): Lazy<V> = lazy { findViewById(id) }
+fun <V : View> Activity.bind(id: Int, created: (V.() -> Unit)? = null): Lazy<V> =
+    lazy { findViewById<V>(id).apply { created?.invoke(this) } }
+
+fun <V : View> Fragment.bind(id: Int, created: (V.() -> Unit)? = null): Lazy<V> =
+    lazy { requireView().findViewById<V>(id).apply { created?.invoke(this) } }
+
+fun <V : View> View.bind(id: Int, created: (V.() -> Unit)? = null): Lazy<V> =
+    lazy { findViewById<V>(id).apply { created?.invoke(this) } }
+
+fun <V : View> Dialog.bind(id: Int, created: (V.() -> Unit)? = null): Lazy<V> =
+    lazy { findViewById<V>(id).apply { created?.invoke(this) } }
 
 private const val InputType_PSW_Hide =
     EditorInfo.TYPE_CLASS_TEXT or EditorInfo.TYPE_TEXT_VARIATION_PASSWORD // 129

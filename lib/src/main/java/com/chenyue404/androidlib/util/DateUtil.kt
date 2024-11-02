@@ -5,7 +5,9 @@ import com.chenyue404.androidlib.util.DateUtil.ONE_HOUR_TIME
 import com.chenyue404.androidlib.util.DateUtil.ONE_MIN_TIME
 import com.chenyue404.androidlib.util.DateUtil.ONE_WEEK_TIME
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 /**
  * 日期和时间相关的工具
@@ -13,7 +15,6 @@ import java.util.*
  * @property ONE_HOUR_TIME 一小时的毫秒数
  * @property ONE_DAY_TIME 一天的毫秒数
  * @property ONE_WEEK_TIME 一星期的毫秒数
- * @author 王树正
  */
 object DateUtil {
     const val ONE_MIN_TIME = 60 * 1000.toLong()

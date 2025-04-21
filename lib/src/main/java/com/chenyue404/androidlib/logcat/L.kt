@@ -1,12 +1,9 @@
 package com.chenyue404.androidlib.logcat
 
 import android.util.Log
-import com.chenyue404.androidlib.logcat.LogCat.defaultTag
-import com.chenyue404.androidlib.logcat.LogCat.enabled
-import com.chenyue404.androidlib.logcat.LogCat.logInterceptors
-import org.json.JSONArray
-import org.json.JSONObject
-import org.json.JSONTokener
+import com.chenyue404.androidlib.logcat.L.defaultTag
+import com.chenyue404.androidlib.logcat.L.enabled
+import com.chenyue404.androidlib.logcat.L.logInterceptors
 import kotlin.math.min
 
 /** 日志等级 */
@@ -26,7 +23,7 @@ enum class LogCatPriority(
  * @property enabled 全局开关
  * @property logInterceptors 日志拦截器
  */
-object LogCat {
+object L {
 
     var defaultTag = "日志"
     var enabled = true
@@ -52,52 +49,57 @@ object LogCat {
 
     // <editor-fold desc="输出">
 
-    fun v(message: String?, tag: String? = this.defaultTag) {
-        print(
-            LogCatPriority.VERBOSE,
-            message,
-            tag
-        )
+    fun v(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
+        print(LogCatPriority.VERBOSE, buildMsg(null, msgFun), tag)
     }
 
-    fun i(message: String?, tag: String? = this.defaultTag) {
-        print(
-            LogCatPriority.INFO,
-            message,
-            tag
-        )
+    fun d(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
+        print(LogCatPriority.DEBUG, buildMsg(null, msgFun), tag)
     }
 
-    fun d(message: String?, tag: String? = this.defaultTag) {
-        print(
-            LogCatPriority.DEBUG,
-            message,
-            tag
-        )
+    fun i(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
+        print(LogCatPriority.INFO, buildMsg(null, msgFun), tag)
     }
 
-    fun w(message: String?, tag: String? = this.defaultTag) {
-        print(
-            LogCatPriority.WARN,
-            message,
-            tag
-        )
+    fun w(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
+        print(LogCatPriority.WARN, buildMsg(null, msgFun), tag)
     }
 
-    fun e(message: String?, tag: String? = this.defaultTag) {
-        print(
-            LogCatPriority.ERROR,
-            message,
-            tag
-        )
+    fun e(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
+        print(LogCatPriority.ERROR, buildMsg(null, msgFun), tag)
     }
 
-    fun wtf(message: String?, tag: String? = this.defaultTag) {
-        print(
-            LogCatPriority.ASSERT,
-            message,
-            tag
-        )
+    fun wtf(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
+        print(LogCatPriority.ASSERT, buildMsg(null, msgFun), tag)
+    }
+
+    private fun buildMsg(throwable: Throwable? = null, msgFun: () -> String?): String {
+        val msg = msgFun.invoke()?.takeIf { it.isNotEmpty() } ?: ""
+        val sb = StringBuilder()
+        val stackTrace = Throwable().stackTrace
+        val targetElement = stackTrace.first {
+            it.className != this.javaClass.name
+        }
+        var className = targetElement.className.substringAfterLast('.')
+        val lineNumber = targetElement.lineNumber
+        val threadName = Thread.currentThread().name
+
+        if ('$' in className) {
+            className = className.split('$')
+                .filter { it.isNotEmpty() }
+                .joinToString("$")
+        }
+
+        sb.append("[${System.currentTimeMillis()}]").append(" ")
+            .append(className).append(":").append(lineNumber).append(" ")
+            .append("($threadName)").append(" ")
+            .append("> ").append(msg)
+        throwable?.let {
+            sb.append("\n")
+                .append("Message: ").append(it.localizedMessage)
+                .append("\nStacktrace : ").append(Log.getStackTraceString(it))
+        }
+        return sb.toString()
     }
 
     /**
@@ -142,58 +144,6 @@ object LogCat {
         } else {
             log(level, adjustMsg, tag)
         }
-    }
-
-    /**
-     * Json格式输出Log
-     *
-     * @param message JSON
-     * @param tag     标签
-     * @param url     地址
-     */
-    fun json(
-        message: String?,
-        tag: String? = this.defaultTag,
-        url: String? = null,
-        level: LogCatPriority = LogCatPriority.INFO
-    ) {
-        if (!enabled || tag.isNullOrBlank()) return
-
-        val chain = Chain(level, message, tag)
-
-        logInterceptors.forEach {
-            it.intercept(chain)
-        }
-
-        if (chain.cancel || tag.isBlank()) return
-
-        if (message.isNullOrBlank()) {
-            val adjustMsg = if (url.isNullOrBlank()) message else url
-            print(level, adjustMsg, tag)
-            return
-        }
-
-        val tokener = JSONTokener(message)
-
-        val obj = try {
-            tokener.nextValue()
-        } catch (e: Exception) {
-            "Parse json error"
-        }
-
-        var finalMsg = when (obj) {
-            is JSONObject -> {
-                obj.toString(2)
-            }
-            is JSONArray -> {
-                obj.toString(2)
-            }
-            else -> obj.toString()
-        }
-
-        if (!url.isNullOrBlank()) finalMsg = "$url\n$finalMsg"
-
-        print(level, finalMsg, tag)
     }
 
     private fun log(level: LogCatPriority, adjustMsg: String, tag: String) {

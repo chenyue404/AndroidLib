@@ -1,7 +1,7 @@
 package com.chenyue404.androidlib.extends
 
 import android.util.Log
-import com.chenyue404.androidlib.logcat.LogCat
+import com.chenyue404.androidlib.logcat.L
 import com.chenyue404.androidlib.logcat.LogCatPriority
 
 /**
@@ -34,7 +34,7 @@ fun Any.log(
         }
         sb.append("\n").append(finalStackInfo)
     }
-    LogCat.print(level, String(sb), finalTag)
+    L.print(level, String(sb), finalTag)
 }
 
 private fun Any.outerClassSimpleNameInternalOnlyDoNotUseKThxBye(): String {
@@ -53,5 +53,5 @@ private fun Any.outerClassSimpleNameInternalOnlyDoNotUseKThxBye(): String {
  * 打印Throwable
  */
 fun Throwable.log() {
-    LogCat.e(Log.getStackTraceString(this))
+    L.e(Log.getStackTraceString(this)) { "" }
 }

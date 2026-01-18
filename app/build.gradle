@@ -1,17 +1,22 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.chenyue404.androidtoolbox"
-        minSdk 21
-        targetSdk 33
+        minSdk = 23
+        targetSdk = 33
         versionCode 1
         versionName "1.0"
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     buildTypes {
@@ -27,11 +32,13 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = 17
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
 }
-configurations.all {
+configurations.configureEach {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 dependencies {

@@ -1,16 +1,22 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
     id("maven-publish")
 }
 
 android {
+    namespace = "com.chenyue404.androidlib"
     compileSdk = 33
 
     defaultConfig {
         minSdk = 21
 
         consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -22,38 +28,48 @@ android {
             )
         }
     }
-    namespace = "com.chenyue404.androidlib"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar() // 可选：如果你想同时发布源码
+            // withJavadocJar() // 可选：如果你想同时发布 Javadoc
+        }
+    }
+
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.recyclerview:recyclerview:1.3.0")
-    implementation("androidx.lifecycle:lifecycle-common:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.fragment:fragment:1.6.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.code.gson:gson:2.9.1")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.lifecycle:lifecycle-common:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-runtime:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
+    implementation("androidx.fragment:fragment:1.8.9")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("com.google.code.gson:gson:2.13.2")
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            // 此时 components["release"] 已经由上面的 singleVariant("release") 创建好了
+            afterEvaluate {
                 from(components["release"])
-                groupId = "com.github.chenyue404"
-                artifactId = "androidlib"
-                version = "1.0.0"
             }
+            groupId = "com.github.chenyue404"
+            artifactId = "androidlib"
+            version = "1.0.0"
         }
     }
 }

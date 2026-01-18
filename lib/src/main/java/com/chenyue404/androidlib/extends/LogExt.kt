@@ -14,6 +14,13 @@ import com.chenyue404.androidlib.logcat.LogCatPriority
  * @param showStackInfo 是否打印堆栈信息
  * @param stackLines 堆栈信息行数
  */
+@Deprecated(
+    message = "有bug，新的性能更优",
+    replaceWith = ReplaceWith(
+        expression = "L.d(notEmptyTag) { msg }",
+        imports = kotlin.arrayOf("com.chenyue404.androidlib.logcat.L")
+    )
+)
 fun Any.log(
     msg: String,
     tag: String = "",

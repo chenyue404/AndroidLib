@@ -50,27 +50,27 @@ object L {
     // <editor-fold desc="输出">
 
     fun v(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
-        print(LogCatPriority.VERBOSE, buildMsg(null, msgFun), tag)
+        print(LogCatPriority.VERBOSE, buildMsg(throwable, msgFun), tag)
     }
 
     fun d(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
-        print(LogCatPriority.DEBUG, buildMsg(null, msgFun), tag)
+        print(LogCatPriority.DEBUG, buildMsg(throwable, msgFun), tag)
     }
 
     fun i(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
-        print(LogCatPriority.INFO, buildMsg(null, msgFun), tag)
+        print(LogCatPriority.INFO, buildMsg(throwable, msgFun), tag)
     }
 
     fun w(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
-        print(LogCatPriority.WARN, buildMsg(null, msgFun), tag)
+        print(LogCatPriority.WARN, buildMsg(throwable, msgFun), tag)
     }
 
     fun e(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
-        print(LogCatPriority.ERROR, buildMsg(null, msgFun), tag)
+        print(LogCatPriority.ERROR, buildMsg(throwable, msgFun), tag)
     }
 
     fun wtf(tag: String = defaultTag, throwable: Throwable? = null, msgFun: () -> String?) {
-        print(LogCatPriority.ASSERT, buildMsg(null, msgFun), tag)
+        print(LogCatPriority.ASSERT, buildMsg(throwable, msgFun), tag)
     }
 
     private fun buildMsg(throwable: Throwable? = null, msgFun: () -> String?): String {
@@ -123,9 +123,10 @@ object L {
             it.intercept(chain)
         }
 
-        if (chain.cancel || tag.isEmpty()) return
+        val newTag = chain.tag
+        if (chain.cancel || newTag.isEmpty()) return
 
-        val adjustMsg = message ?: ""
+        val adjustMsg = chain.message ?: ""
 
         val max = 3800
         val length = adjustMsg.length
@@ -136,13 +137,13 @@ object L {
                 while (startIndex < length) {
                     endIndex = min(length, endIndex)
                     val substring = adjustMsg.substring(startIndex, endIndex)
-                    log(level, substring, tag)
+                    log(level, substring, newTag)
                     startIndex += max
                     endIndex += max
                 }
             }
         } else {
-            log(level, adjustMsg, tag)
+            log(level, adjustMsg, newTag)
         }
     }
 

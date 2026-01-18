@@ -8,7 +8,8 @@ import com.chenyue404.androidlib.extends.changeSize
 import com.chenyue404.androidlib.extends.click
 import com.chenyue404.androidlib.extends.dp2Px
 import com.chenyue404.androidlib.extends.launch
-import com.chenyue404.androidlib.extends.log
+import com.chenyue404.androidlib.logcat.FileLogInterceptor
+import com.chenyue404.androidlib.logcat.L
 import com.chenyue404.androidlib.widget.BaseActivity
 import com.chenyue404.androidlib.widget.ToolbarView
 
@@ -19,6 +20,16 @@ class MainActivity : BaseActivity() {
 
     override fun getContentViewResId() = R.layout.activity_main
     override fun initView() {
+        L.addInterceptor(
+            FileLogInterceptor(
+                this,
+                (externalCacheDir ?: cacheDir).absolutePath,
+                "log",
+                shouldRoll = {
+                    (it?.length() ?: 0) > 1024 * 1024
+                }
+            )
+        )
         toolbar.apply {
             setBackgroundColor(Color.GREEN)
             alpha = 0.5f
@@ -43,14 +54,15 @@ class MainActivity : BaseActivity() {
         }
 
         lifecycle.launch(Lifecycle.State.RESUMED) {
-            log("RESUMED-false")
+//            log("RESUMED-false")
+            L.d { "RESUMED-false" }
         }
         lifecycle.launch(Lifecycle.State.RESUMED, true) {
-            log("RESUMED-true")
+//            log("RESUMED-true")
+            L.d { "RESUMED-true" }
         }
     }
 
     override fun initBeforeSetContent() {
-
     }
 }

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.chenyue404.androidlib"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
